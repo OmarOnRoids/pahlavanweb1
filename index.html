@@ -26,10 +26,6 @@
 
         #center-rectangle {
             position: absolute;
-            width: 16.67%; /* 1/6 of the container's width */
-            height: 16.67%; /* 1/6 of the container's height */
-            top: 41.67%; /* Centered vertically */
-            left: 41.67%; /* Centered horizontally */
             border: 10px solid black;
             box-sizing: border-box;
         }
@@ -55,11 +51,11 @@
             const containerWidth = container.clientWidth;
             const containerHeight = container.clientHeight;
 
-            // Update the central rectangle to always be 1/6th the size of the container
-            centerRectangle.style.width = `${containerWidth / 6}px`;
-            centerRectangle.style.height = `${containerHeight / 6}px`;
-            centerRectangle.style.top = `${(containerHeight - containerHeight / 6) / 2}px`;
-            centerRectangle.style.left = `${(containerWidth - containerWidth / 6) / 2}px`;
+            // Update the central rectangle to always be 1/5th the size of the container's borders
+            centerRectangle.style.width = `${containerWidth / 5}px`;
+            centerRectangle.style.height = `${containerHeight / 5}px`;
+            centerRectangle.style.top = `${(containerHeight - containerHeight / 5) / 2}px`;
+            centerRectangle.style.left = `${(containerWidth - containerWidth / 5) / 2}px`;
         }
 
         window.addEventListener('resize', adjustCenterRectangle);
