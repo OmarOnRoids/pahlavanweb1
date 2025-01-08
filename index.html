@@ -24,7 +24,7 @@
             overflow: hidden;
         }
 
-        #center-square {
+        #center-rectangle {
             position: absolute;
             width: 50%;
             height: 50%;
@@ -44,11 +44,27 @@
 </head>
 <body>
     <div id="container">
-        <div id="center-square"></div>
+        <div id="center-rectangle"></div>
     </div>
 
     <script>
         const container = document.getElementById('container');
+        const centerRectangle = document.getElementById('center-rectangle');
+
+        function adjustCenterRectangle() {
+            const containerWidth = container.clientWidth;
+            const containerHeight = container.clientHeight;
+
+            // Maintain a dynamic rectangle
+            centerRectangle.style.width = `${containerWidth * 0.5}px`;
+            centerRectangle.style.height = `${containerHeight * 0.5}px`;
+            centerRectangle.style.top = `${containerHeight * 0.25}px`;
+            centerRectangle.style.left = `${containerWidth * 0.25}px`;
+        }
+
+        window.addEventListener('resize', adjustCenterRectangle);
+        adjustCenterRectangle();
+
         const imageFiles = [
             'photo_2024-11-12_16-12-29.jpg',
             'photo_2025-01-08_23-39-35.jpg',
