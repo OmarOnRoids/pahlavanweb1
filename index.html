@@ -1,120 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Media Layout</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+<script>
+    const container = document.getElementById('container');
+    const imageFiles = [
+        'photo_2024-11-12_16-12-29.jpg',
+        'photo_2025-01-08_23-39-35.jpg',
+        'photo_2025-01-08_23-39-48.jpg',
+        'photo_2025-01-08_23-40-21.jpg',
+        'photo_2025-01-08_23-40-26.jpg'
+    ];
+
+    const images = [];
+
+    function randomPosition() {
+        return {
+            x: Math.random() * (container.clientWidth - container.clientWidth * 0.15),
+            y: Math.random() * (container.clientHeight - container.clientHeight * 0.15),
+            dx: (Math.random() > 0.5 ? 1 : -1) * 2, // Speed multiplier
+            dy: (Math.random() > 0.5 ? 1 : -1) * 2
+        };
+    }
+
+    function createImageElement(src) {
+        const img = document.createElement('img');
+        img.src = src;
+        img.classList.add('image');
+
+        // Check if this is the "Umar" image
+        if (src === 'photo_2024-11-12_16-12-29.jpg') {
+            img.style.zIndex = 1000; // Always on top
+        } else {
+            img.style.zIndex = 1; // Default z-index for other images
         }
 
-        body {
-            overflow: hidden;
-            height: 100vh;
-        }
+        const position = randomPosition();
+        img.style.left = `${position.x}px`;
+        img.style.top = `${position.y}px`;
 
-        #container {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            border: 10px solid black;
-            overflow: hidden;
-        }
+        container.appendChild(img);
+        images.push({ img, ...position });
+    }
 
-        .image {
-            position: absolute;
-            height: auto;
-            object-fit: cover;
-        }
+    function moveImages() {
+        images.forEach(image => {
+            const img = image.img;
+            let x = image.x + image.dx;
+            let y = image.y + image.dy;
 
-        .image.half-size {
-            width: 7.5vw;
-        }
+            if (x <= 0 || x + img.clientWidth >= container.clientWidth) {
+                image.dx *= -1;
+                x = Math.max(0, Math.min(container.clientWidth - img.clientWidth, x));
+            }
 
-        .image.default-size {
-            width: 15vw;
-        }
+            if (y <= 0 || y + img.clientHeight >= container.clientHeight) {
+                image.dy *= -1;
+                y = Math.max(0, Math.min(container.clientHeight - img.clientHeight, y));
+            }
 
-        .umar {
-            z-index: 1000; /* Always on top */
-        }
-    </style>
-</head>
-<body>
-    <div id="container"></div>
+            image.x = x;
+            image.y = y;
 
-    <script>
-        const container = document.getElementById('container');
-        const imageFiles = [
-            { src: 'photo_2024-11-12_16-12-29.jpg', size: 'half-size', class: 'umar', zIndex: 1000 },
-            { src: 'photo_2025-01-08_23-39-35.jpg', size: 'half-size', zIndex: 1 },
-            { src: 'photo_2025-01-08_23-39-48.jpg', size: 'default-size', zIndex: 1 },
-            { src: 'photo_2025-01-08_23-40-21.jpg', size: 'default-size', zIndex: 1 },
-            { src: 'photo_2025-01-08_23-40-26.jpg', size: 'default-size', zIndex: 1 }
-        ];
+            img.style.left = `${image.x}px`;
+            img.style.top = `${image.y}px`;
+        });
 
-        const images = [];
-
-        function randomPosition() {
-            return {
-                x: Math.random() * (container.clientWidth - container.clientWidth * 0.3),
-                y: Math.random() * (container.clientHeight - container.clientHeight * 0.3),
-                dx: (Math.random() > 0.5 ? 1 : -1) * 2,
-                dy: (Math.random() > 0.5 ? 1 : -1) * 2
-            };
-        }
-
-        function createImageElement({ src, size, class: additionalClass = '', zIndex = 1 }) {
-            const img = document.createElement('img');
-            img.src = src;
-            img.classList.add('image', size, additionalClass);
-            img.style.zIndex = zIndex;
-
-            const position = randomPosition();
-            img.style.left = `${position.x}px`;
-            img.style.top = `${position.y}px`;
-
-            container.appendChild(img);
-            images.push({ img, ...position });
-        }
-
-        function moveImages() {
-            images.forEach(image => {
-                const { img } = image;
-                let x = image.x + image.dx;
-                let y = image.y + image.dy;
-
-                if (x <= 0 || x + img.clientWidth >= container.clientWidth) {
-                    image.dx *= -1;
-                    x = Math.max(0, Math.min(container.clientWidth - img.clientWidth, x));
-                }
-
-                if (y <= 0 || y + img.clientHeight >= container.clientHeight) {
-                    image.dy *= -1;
-                    y = Math.max(0, Math.min(container.clientHeight - img.clientHeight, y));
-                }
-
-                image.x = x;
-                image.y = y;
-
-                img.style.left = `${image.x}px`;
-                img.style.top = `${image.y}px`;
-            });
-
-            requestAnimationFrame(moveImages);
-        }
-
-        function initializeImages() {
-            imageFiles.forEach(file => {
-                createImageElement(file);
-            });
-        }
-
-        initializeImages();
         requestAnimationFrame(moveImages);
-    </script>
-</body>
-</html>
+    }
+
+    imageFiles.forEach(createImageElement);
+    moveImages();
+</script>
