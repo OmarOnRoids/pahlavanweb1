@@ -29,20 +29,22 @@
         }
         .gallery img {
             position: absolute;
-            width: calc(1920px / 30);
-            height: calc(1080px / 30);
+            width: 240px;
+            height: 135px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .video-container {
             text-align: center;
-            margin-top: 30px;
-            position: relative;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             z-index: 10;
         }
         video {
-            max-width: 60%;
-            height: auto;
+            width: 640px;
+            height: 360px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
@@ -70,31 +72,44 @@
 
         const imageData = Array.from(images).map(img => {
             const rect = frame.getBoundingClientRect();
-            const size = rect.width / 30;
-            img.style.width = `${size}px`;
-            img.style.height = `${size}px`;
+            const width = 240;
+            const height = 135;
             return {
                 element: img,
-                x: Math.random() * (rect.width - size),
-                y: Math.random() * (rect.height - size),
+                x: Math.random() * (rect.width - width),
+                y: Math.random() * (rect.height - height),
                 dx: (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 2 + 1),
                 dy: (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 2 + 1),
-                size: size
+                width: width,
+                height: height
             };
         });
 
         function moveImages() {
             const rect = frame.getBoundingClientRect();
+            const videoContainer = document.querySelector('.video-container');
+            const videoRect = videoContainer.getBoundingClientRect();
 
             imageData.forEach(data => {
                 data.x += data.dx;
                 data.y += data.dy;
 
                 // Check for wall collisions
-                if (data.x <= 0 || data.x + data.size >= rect.width) {
+                if (data.x <= 0 || data.x + data.width >= rect.width) {
                     data.dx *= -1;
                 }
-                if (data.y <= 0 || data.y + data.size >= rect.height) {
+                if (data.y <= 0 || data.y + data.height >= rect.height) {
+                    data.dy *= -1;
+                }
+
+                // Check for collisions with the video
+                if (
+                    data.x < videoRect.x + videoRect.width &&
+                    data.x + data.width > videoRect.x &&
+                    data.y < videoRect.y + videoRect.height &&
+                    data.y + data.height > videoRect.y
+                ) {
+                    data.dx *= -1;
                     data.dy *= -1;
                 }
 
@@ -102,10 +117,10 @@
                 imageData.forEach(other => {
                     if (data === other) return;
                     if (
-                        data.x < other.x + other.size &&
-                        data.x + data.size > other.x &&
-                        data.y < other.y + other.size &&
-                        data.y + data.size > other.y
+                        data.x < other.x + other.width &&
+                        data.x + data.width > other.x &&
+                        data.y < other.y + other.height &&
+                        data.y + data.height > other.y
                     ) {
                         data.dx *= -1;
                         data.dy *= -1;
