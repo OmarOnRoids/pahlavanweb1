@@ -21,17 +21,15 @@
 
         .media {
             position: absolute;
-            width: 15%;
-            height: 15%;
-            object-fit: cover;
+            aspect-ratio: 1 / 1;
+            width: auto;
+            height: auto;
+            max-width: 15vw;
+            max-height: 15vh;
         }
 
         img.media, video.media {
             transition: transform 0.5s;
-        }
-
-        img.media:hover, video.media:hover {
-            transform: scale(1.1);
         }
     </style>
 </head>
@@ -51,11 +49,33 @@
             { type: 'video', src: '/mnt/data/محمد السليم سيارتي جيب.mp4' }
         ];
 
+        const occupiedAreas = [];
+
         function randomPosition() {
-            return {
-                top: Math.random() * 85 + '%', // Ensure it stays within bounds
-                left: Math.random() * 85 + '%'
-            };
+            let top, left;
+            let overlap;
+
+            do {
+                top = Math.random() * 85;
+                left = Math.random() * 85;
+                overlap = occupiedAreas.some(area => {
+                    return (
+                        top < area.bottom &&
+                        top + 15 > area.top &&
+                        left < area.right &&
+                        left + 15 > area.left
+                    );
+                });
+            } while (overlap);
+
+            occupiedAreas.push({
+                top,
+                left,
+                bottom: top + 15,
+                right: left + 15
+            });
+
+            return { top: `${top}%`, left: `${left}%` };
         }
 
         function createMediaElement(media) {
@@ -82,15 +102,6 @@
 
         mediaFiles.forEach(createMediaElement);
 
-        // Reposition media on window resize
-        window.addEventListener('resize', () => {
-            const mediaElements = document.querySelectorAll('.media');
-            mediaElements.forEach(media => {
-                const { top, left } = randomPosition();
-                media.style.top = top;
-                media.style.left = left;
-            });
-        });
     </script>
 </body>
 </html>
