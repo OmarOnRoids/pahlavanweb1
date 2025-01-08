@@ -24,6 +24,16 @@
             overflow: hidden;
         }
 
+        #center-square {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            top: 25%;
+            left: 25%;
+            border: 10px solid black;
+            box-sizing: border-box;
+        }
+
         .image {
             position: absolute;
             width: 15vw;
@@ -33,7 +43,9 @@
     </style>
 </head>
 <body>
-    <div id="container"></div>
+    <div id="container">
+        <div id="center-square"></div>
+    </div>
 
     <script>
         const container = document.getElementById('container');
