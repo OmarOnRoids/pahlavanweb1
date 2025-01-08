@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Image Gallery</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .gallery img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .video-link {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .video-link a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 18px;
+        }
+        .video-link a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Image Gallery</h1>
+        <div class="gallery">
+            <!-- Images added -->
+            <img src="/mnt/data/photo_2024-11-12_16-12-29.jpg" alt="Image 1">
+            <img src="/mnt/data/photo_2025-01-08_23-39-35.jpg" alt="Image 2">
+            <img src="/mnt/data/photo_2025-01-08_23-39-48.jpg" alt="Image 3">
+            <img src="/mnt/data/photo_2025-01-08_23-40-21.jpg" alt="Image 4">
+            <img src="/mnt/data/photo_2025-01-08_23-40-26.jpg" alt="Image 5">
+        </div>
+        <div class="video-link">
+            <a href="https://www.youtube.com/watch?v=G9a-wvfgHUM&loop=0" target="_blank">Watch the Video</a>
+        </div>
+    </div>
+</body>
+</html>
