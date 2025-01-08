@@ -51,6 +51,10 @@
         .umar {
             z-index: 1000; /* Highest priority */
         }
+
+        .banana {
+            z-index: 999; /* Second priority */
+        }
     </style>
 </head>
 <body>
@@ -61,7 +65,7 @@
         const imageFiles = [
             { src: 'photo_2024-11-12_16-12-29.jpg', size: 'half-size', name: 'Umar', class: 'umar' },
             { src: 'photo_2025-01-08_23-39-35.jpg', size: 'half-size', name: 'Body' },
-            { src: 'photo_2025-01-08_23-39-48.jpg', size: 'default-size', name: 'Banana' },
+            { src: 'photo_2025-01-08_23-39-48.jpg', size: 'default-size', name: 'Banana', class: 'banana' },
             { src: 'photo_2025-01-08_23-40-21.jpg', size: 'default-size', name: 'Image 4' },
             { src: 'photo_2025-01-08_23-40-26.jpg', size: 'default-size', name: 'Image 5' }
         ];
