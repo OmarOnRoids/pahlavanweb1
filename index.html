@@ -29,6 +29,7 @@
             width: 15vw;
             height: auto;
             object-fit: cover;
+            transition: transform 0.1s linear;
         }
     </style>
 </head>
@@ -37,7 +38,6 @@
 
     <script>
         const container = document.getElementById('container');
-
         const imageFiles = [
             'photo_2024-11-12_16-12-29.jpg',
             'photo_2025-01-08_23-39-35.jpg',
@@ -46,52 +46,56 @@
             'photo_2025-01-08_23-40-26.jpg'
         ];
 
-        const occupiedAreas = [];
+        const images = [];
 
         function randomPosition() {
-            let top, left;
-            let overlap;
-
-            do {
-                top = Math.random() * 85;
-                left = Math.random() * 85;
-
-                // Ensure elements stay within the container
-                if (top + 15 > 100) top = 85;
-                if (left + 15 > 100) left = 85;
-
-                overlap = occupiedAreas.some(area => {
-                    return (
-                        top < area.bottom &&
-                        top + 15 > area.top &&
-                        left < area.right &&
-                        left + 15 > area.left
-                    );
-                });
-            } while (overlap);
-
-            occupiedAreas.push({
-                top,
-                left,
-                bottom: top + 15,
-                right: left + 15
-            });
-
-            return { top: `${top}%`, left: `${left}%` };
+            return {
+                x: Math.random() * (container.clientWidth - container.clientWidth * 0.15),
+                y: Math.random() * (container.clientHeight - container.clientHeight * 0.15),
+                dx: Math.random() > 0.5 ? 1 : -1,
+                dy: Math.random() > 0.5 ? 1 : -1
+            };
         }
 
         function createImageElement(src) {
             const img = document.createElement('img');
             img.src = src;
             img.classList.add('image');
-            const { top, left } = randomPosition();
-            img.style.top = top;
-            img.style.left = left;
+
+            const position = randomPosition();
+            img.style.left = `${position.x}px`;
+            img.style.top = `${position.y}px`;
 
             container.appendChild(img);
+            images.push({ img, ...position });
+        }
+
+        function moveImages() {
+            images.forEach(image => {
+                const img = image.img;
+                let x = image.x + image.dx;
+                let y = image.y + image.dy;
+
+                if (x <= 0 || x + img.clientWidth >= container.clientWidth) {
+                    image.dx *= -1;
+                }
+
+                if (y <= 0 || y + img.clientHeight >= container.clientHeight) {
+                    image.dy *= -1;
+                }
+
+                image.x += image.dx;
+                image.y += image.dy;
+
+                img.style.left = `${image.x}px`;
+                img.style.top = `${image.y}px`;
+            });
+
+            requestAnimationFrame(moveImages);
         }
 
         imageFiles.forEach(createImageElement);
+        moveImages();
     </script>
 </body>
 </html>
