@@ -26,9 +26,20 @@
 
         .image {
             position: absolute;
-            width: 15vw;
             height: auto;
             object-fit: cover;
+        }
+
+        .image.double-size {
+            width: 30vw;
+        }
+
+        .image.half-size {
+            width: 7.5vw;
+        }
+
+        .image.default-size {
+            width: 15vw;
         }
     </style>
 </head>
@@ -38,28 +49,28 @@
     <script>
         const container = document.getElementById('container');
         const imageFiles = [
-            'photo_2024-11-12_16-12-29.jpg',
-            'photo_2025-01-08_23-39-35.jpg',
-            'photo_2025-01-08_23-39-48.jpg',
-            'photo_2025-01-08_23-40-21.jpg',
-            'photo_2025-01-08_23-40-26.jpg'
+            { src: 'photo_2024-11-12_16-12-29.jpg', size: 'double-size' },
+            { src: 'photo_2025-01-08_23-39-35.jpg', size: 'half-size' },
+            { src: 'photo_2025-01-08_23-39-48.jpg', size: 'default-size' },
+            { src: 'photo_2025-01-08_23-40-21.jpg', size: 'default-size' },
+            { src: 'photo_2025-01-08_23-40-26.jpg', size: 'default-size' }
         ];
 
         const images = [];
 
         function randomPosition() {
             return {
-                x: Math.random() * (container.clientWidth - container.clientWidth * 0.15),
-                y: Math.random() * (container.clientHeight - container.clientHeight * 0.15),
+                x: Math.random() * (container.clientWidth - container.clientWidth * 0.3), // Adjusted for max size
+                y: Math.random() * (container.clientHeight - container.clientHeight * 0.3),
                 dx: (Math.random() > 0.5 ? 1 : -1) * 2, // Speed multiplier
                 dy: (Math.random() > 0.5 ? 1 : -1) * 2
             };
         }
 
-        function createImageElement(src) {
+        function createImageElement({ src, size }) {
             const img = document.createElement('img');
             img.src = src;
-            img.classList.add('image');
+            img.classList.add('image', size);
 
             const position = randomPosition();
             img.style.left = `${position.x}px`;
