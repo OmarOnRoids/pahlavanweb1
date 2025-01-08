@@ -131,7 +131,13 @@
             requestAnimationFrame(moveImages);
         }
 
-        imageFiles.forEach(createImageElement);
+        function initializeImages() {
+            imageFiles.forEach(file => {
+                createImageElement(file);
+            });
+        }
+
+        initializeImages();
         moveImages();
     </script>
 </body>
