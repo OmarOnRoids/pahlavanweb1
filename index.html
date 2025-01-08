@@ -3,141 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cool</title>
+    <title>Dynamic Media Layout</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f9;
-            color: #333;
-            position: relative;
+            box-sizing: border-box;
             overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        }
+
+        #container {
+            position: relative;
+            width: 100vw;
             height: 100vh;
+            border: 10px solid black;
         }
-        .frame {
-            width: 1920px;
-            height: 1080px;
-            border: 5px solid #333;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
-            position: relative;
-            background-color: white;
-        }
-        .gallery img {
+
+        .media {
             position: absolute;
-            width: 240px;
-            height: 135px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .video-container {
-            text-align: center;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 10;
-        }
-        video {
-            width: 213px;
-            height: 213px;
-            border-radius: 8px;
+            width: 15%;
+            height: 15%;
             object-fit: cover;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        img.media, video.media {
+            transition: transform 0.5s;
+        }
+
+        img.media:hover, video.media:hover {
+            transform: scale(1.1);
         }
     </style>
 </head>
 <body>
-    <div class="frame">
-        <div class="gallery">
-            <img src="photo_2024-11-12_16-12-29.jpg" alt="Image 1">
-            <img src="photo_2025-01-08_23-39-35.jpg" alt="Image 2">
-            <img src="photo_2025-01-08_23-39-48.jpg" alt="Image 3">
-            <img src="photo_2025-01-08_23-40-21.jpg" alt="Image 4">
-            <img src="photo_2025-01-08_23-40-26.jpg" alt="Image 5">
-        </div>
-        <div class="video-container">
-            <video controls>
-                <source src="محمد السليم سيارتي جيب.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
-    </div>
+    <div id="container"></div>
+
     <script>
-        const frame = document.querySelector('.frame');
-        const images = document.querySelectorAll('.gallery img');
+        const container = document.getElementById('container');
 
-        const imageData = Array.from(images).map(img => {
-            const rect = frame.getBoundingClientRect();
-            const width = 960;
-            const height = 540;
+        // Updated media files
+        const mediaFiles = [
+            { type: 'image', src: '/mnt/data/photo_2024-11-12_16-12-29.jpg' },
+            { type: 'image', src: '/mnt/data/photo_2025-01-08_23-39-35.jpg' },
+            { type: 'image', src: '/mnt/data/photo_2025-01-08_23-39-48.jpg' },
+            { type: 'image', src: '/mnt/data/photo_2025-01-08_23-40-21.jpg' },
+            { type: 'image', src: '/mnt/data/photo_2025-01-08_23-40-26.jpg' },
+            { type: 'video', src: '/mnt/data/محمد السليم سيارتي جيب.mp4' }
+        ];
+
+        function randomPosition() {
             return {
-                element: img,
-                x: Math.random() * (rect.width - width),
-                y: Math.random() * (rect.height - height),
-                dx: (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 0.7 + 0.3),
-                dy: (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 0.7 + 0.3),
-                width: width,
-                height: height
+                top: Math.random() * 85 + '%', // Ensure it stays within bounds
+                left: Math.random() * 85 + '%'
             };
-        });
-
-        function moveImages() {
-            const rect = frame.getBoundingClientRect();
-            const videoContainer = document.querySelector('.video-container');
-            const videoRect = videoContainer.getBoundingClientRect();
-
-            imageData.forEach(data => {
-                data.x += data.dx;
-                data.y += data.dy;
-
-                // Check for wall collisions
-                if (data.x <= 0 || data.x + data.width >= rect.width) {
-                    data.dx *= -1;
-                }
-                if (data.y <= 0 || data.y + data.height >= rect.height) {
-                    data.dy *= -1;
-                }
-
-                // Check for collisions with the video
-                if (
-                    data.x < videoRect.x + videoRect.width &&
-                    data.x + data.width > videoRect.x &&
-                    data.y < videoRect.y + videoRect.height &&
-                    data.y + data.height > videoRect.y
-                ) {
-                    data.dx *= -1;
-                    data.dy *= -1;
-                }
-
-                // Check for collisions with other images
-                imageData.forEach(other => {
-                    if (data === other) return;
-                    if (
-                        data.x < other.x + other.width &&
-                        data.x + data.width > other.x &&
-                        data.y < other.y + other.height &&
-                        data.y + data.height > other.y
-                    ) {
-                        data.dx *= -1;
-                        data.dy *= -1;
-                        other.dx *= -1;
-                        other.dy *= -1;
-                    }
-                });
-
-                // Update position
-                data.element.style.transform = `translate(${data.x}px, ${data.y}px)`;
-            });
-
-            requestAnimationFrame(moveImages);
         }
 
-        moveImages();
+        function createMediaElement(media) {
+            let element;
+
+            if (media.type === 'image') {
+                element = document.createElement('img');
+                element.src = media.src;
+            } else if (media.type === 'video') {
+                element = document.createElement('video');
+                element.src = media.src;
+                element.autoplay = true;
+                element.loop = true;
+                element.muted = true;
+            }
+
+            element.classList.add('media');
+            const { top, left } = randomPosition();
+            element.style.top = top;
+            element.style.left = left;
+
+            container.appendChild(element);
+        }
+
+        mediaFiles.forEach(createMediaElement);
+
+        // Reposition media on window resize
+        window.addEventListener('resize', () => {
+            const mediaElements = document.querySelectorAll('.media');
+            mediaElements.forEach(media => {
+                const { top, left } = randomPosition();
+                media.style.top = top;
+                media.style.left = left;
+            });
+        });
     </script>
 </body>
 </html>
