@@ -26,30 +26,9 @@
 
         .image {
             position: absolute;
+            width: 15vw;
             height: auto;
             object-fit: cover;
-        }
-
-        .image.half-size {
-            width: 7.5vw;
-        }
-
-        .image.default-size {
-            width: 15vw;
-        }
-
-        .label {
-            position: absolute;
-            background: rgba(0, 0, 0, 0.5);
-            color: white;
-            font-size: 1vw;
-            padding: 2px 5px;
-            border-radius: 3px;
-            transform: translate(-50%, -50%);
-        }
-
-        .umar {
-            z-index: 1000; /* Highest priority */
         }
     </style>
 </head>
@@ -59,48 +38,40 @@
     <script>
         const container = document.getElementById('container');
         const imageFiles = [
-            { src: 'photo_2024-11-12_16-12-29.jpg', size: 'half-size', name: 'Umar', class: 'umar' },
-            { src: 'photo_2025-01-08_23-39-35.jpg', size: 'half-size', name: 'body' },
-            { src: 'photo_2025-01-08_23-39-48.jpg', size: 'default-size', name: 'banana' },
-            { src: 'photo_2025-01-08_23-40-21.jpg', size: 'default-size', name: 'Image 4' },
-            { src: 'photo_2025-01-08_23-40-26.jpg', size: 'default-size', name: 'Image 5' }
+            'photo_2024-11-12_16-12-29.jpg',
+            'photo_2025-01-08_23-39-35.jpg',
+            'photo_2025-01-08_23-39-48.jpg',
+            'photo_2025-01-08_23-40-21.jpg',
+            'photo_2025-01-08_23-40-26.jpg'
         ];
 
         const images = [];
 
         function randomPosition() {
             return {
-                x: Math.random() * (container.clientWidth - container.clientWidth * 0.3), // Adjusted for max size
-                y: Math.random() * (container.clientHeight - container.clientHeight * 0.3),
+                x: Math.random() * (container.clientWidth - container.clientWidth * 0.15),
+                y: Math.random() * (container.clientHeight - container.clientHeight * 0.15),
                 dx: (Math.random() > 0.5 ? 1 : -1) * 2, // Speed multiplier
                 dy: (Math.random() > 0.5 ? 1 : -1) * 2
             };
         }
 
-        function createImageElement({ src, size, name, class: additionalClass = '' }) {
+        function createImageElement(src) {
             const img = document.createElement('img');
             img.src = src;
-            img.classList.add('image', size, additionalClass);
+            img.classList.add('image');
 
             const position = randomPosition();
             img.style.left = `${position.x}px`;
             img.style.top = `${position.y}px`;
 
-            const label = document.createElement('div');
-            label.classList.add('label');
-            label.innerText = name;
-            label.style.left = `${position.x + 15}px`;
-            label.style.top = `${position.y + 15}px`;
-
             container.appendChild(img);
-            container.appendChild(label);
-
-            images.push({ img, label, ...position });
+            images.push({ img, ...position });
         }
 
         function moveImages() {
             images.forEach(image => {
-                const { img, label } = image;
+                const img = image.img;
                 let x = image.x + image.dx;
                 let y = image.y + image.dy;
 
@@ -119,8 +90,6 @@
 
                 img.style.left = `${image.x}px`;
                 img.style.top = `${image.y}px`;
-                label.style.left = `${image.x + img.clientWidth / 2}px`;
-                label.style.top = `${image.y + img.clientHeight / 2}px`;
             });
 
             requestAnimationFrame(moveImages);
