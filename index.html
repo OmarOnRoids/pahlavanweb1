@@ -21,10 +21,9 @@
 
         .media {
             position: absolute;
-            aspect-ratio: 1 / 1;
-            width: auto;
+            object-fit: contain;
+            width: 15vw;
             height: auto;
-            max-width: 15vw;
             max-height: 15vh;
         }
 
@@ -84,6 +83,11 @@
             if (media.type === 'image') {
                 element = document.createElement('img');
                 element.src = media.src;
+                element.onload = () => {
+                    if (!element.complete || element.naturalWidth === 0) {
+                        console.error(`Image failed to load: ${media.src}`);
+                    }
+                };
             } else if (media.type === 'video') {
                 element = document.createElement('video');
                 element.src = media.src;
