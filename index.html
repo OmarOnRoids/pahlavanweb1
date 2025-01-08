@@ -30,11 +30,6 @@
             object-fit: cover;
         }
 
-        .image.double-size {
-            width: 30vw;
-            z-index: 100;
-        }
-
         .image.half-size {
             width: 7.5vw;
         }
@@ -52,6 +47,10 @@
             border-radius: 3px;
             transform: translate(-50%, -50%);
         }
+
+        .umar {
+            z-index: 1000; /* Highest priority */
+        }
     </style>
 </head>
 <body>
@@ -60,7 +59,7 @@
     <script>
         const container = document.getElementById('container');
         const imageFiles = [
-            { src: 'photo_2024-11-12_16-12-29.jpg', size: 'double-size', name: 'Umar' },
+            { src: 'photo_2024-11-12_16-12-29.jpg', size: 'half-size', name: 'Umar', class: 'umar' },
             { src: 'photo_2025-01-08_23-39-35.jpg', size: 'half-size', name: 'body' },
             { src: 'photo_2025-01-08_23-39-48.jpg', size: 'default-size', name: 'banana' },
             { src: 'photo_2025-01-08_23-40-21.jpg', size: 'default-size', name: 'Image 4' },
@@ -78,10 +77,10 @@
             };
         }
 
-        function createImageElement({ src, size, name }) {
+        function createImageElement({ src, size, name, class: additionalClass = '' }) {
             const img = document.createElement('img');
             img.src = src;
-            img.classList.add('image', size);
+            img.classList.add('image', size, additionalClass);
 
             const position = randomPosition();
             img.style.left = `${position.x}px`;
