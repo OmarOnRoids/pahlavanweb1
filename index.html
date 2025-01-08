@@ -18,9 +18,70 @@
             height: 100vh;
             border: 10px solid black;
         }
+
+        .image {
+            position: absolute;
+            width: 15vw;
+            height: 15vw;
+            object-fit: cover;
+        }
     </style>
 </head>
 <body>
     <div id="container"></div>
+
+    <script>
+        const container = document.getElementById('container');
+
+        const imageFiles = [
+            'photo_2024-11-12_16-12-29.jpg',
+            'photo_2025-01-08_23-39-35.jpg',
+            'photo_2025-01-08_23-39-48.jpg',
+            'photo_2025-01-08_23-40-21.jpg',
+            'photo_2025-01-08_23-40-26.jpg'
+        ];
+
+        const occupiedAreas = [];
+
+        function randomPosition() {
+            let top, left;
+            let overlap;
+
+            do {
+                top = Math.random() * 85;
+                left = Math.random() * 85;
+                overlap = occupiedAreas.some(area => {
+                    return (
+                        top < area.bottom &&
+                        top + 15 > area.top &&
+                        left < area.right &&
+                        left + 15 > area.left
+                    );
+                });
+            } while (overlap);
+
+            occupiedAreas.push({
+                top,
+                left,
+                bottom: top + 15,
+                right: left + 15
+            });
+
+            return { top: `${top}%`, left: `${left}%` };
+        }
+
+        function createImageElement(src) {
+            const img = document.createElement('img');
+            img.src = src;
+            img.classList.add('image');
+            const { top, left } = randomPosition();
+            img.style.top = top;
+            img.style.left = left;
+
+            container.appendChild(img);
+        }
+
+        imageFiles.forEach(createImageElement);
+    </script>
 </body>
 </html>
