@@ -32,6 +32,7 @@
 
         .image.double-size {
             width: 30vw;
+            z-index: 100;
         }
 
         .image.half-size {
@@ -41,6 +42,16 @@
         .image.default-size {
             width: 15vw;
         }
+
+        .label {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            font-size: 1vw;
+            padding: 2px 5px;
+            border-radius: 3px;
+            transform: translate(-50%, -50%);
+        }
     </style>
 </head>
 <body>
@@ -49,11 +60,11 @@
     <script>
         const container = document.getElementById('container');
         const imageFiles = [
-            { src: 'photo_2024-11-12_16-12-29.jpg', size: 'double-size' },
-            { src: 'photo_2025-01-08_23-39-35.jpg', size: 'half-size' },
-            { src: 'photo_2025-01-08_23-39-48.jpg', size: 'default-size' },
-            { src: 'photo_2025-01-08_23-40-21.jpg', size: 'default-size' },
-            { src: 'photo_2025-01-08_23-40-26.jpg', size: 'default-size' }
+            { src: 'photo_2024-11-12_16-12-29.jpg', size: 'double-size', name: 'Umar' },
+            { src: 'photo_2025-01-08_23-39-35.jpg', size: 'half-size', name: 'body' },
+            { src: 'photo_2025-01-08_23-39-48.jpg', size: 'default-size', name: 'banana' },
+            { src: 'photo_2025-01-08_23-40-21.jpg', size: 'default-size', name: 'Image 4' },
+            { src: 'photo_2025-01-08_23-40-26.jpg', size: 'default-size', name: 'Image 5' }
         ];
 
         const images = [];
@@ -67,7 +78,7 @@
             };
         }
 
-        function createImageElement({ src, size }) {
+        function createImageElement({ src, size, name }) {
             const img = document.createElement('img');
             img.src = src;
             img.classList.add('image', size);
@@ -76,13 +87,21 @@
             img.style.left = `${position.x}px`;
             img.style.top = `${position.y}px`;
 
+            const label = document.createElement('div');
+            label.classList.add('label');
+            label.innerText = name;
+            label.style.left = `${position.x + 15}px`;
+            label.style.top = `${position.y + 15}px`;
+
             container.appendChild(img);
-            images.push({ img, ...position });
+            container.appendChild(label);
+
+            images.push({ img, label, ...position });
         }
 
         function moveImages() {
             images.forEach(image => {
-                const img = image.img;
+                const { img, label } = image;
                 let x = image.x + image.dx;
                 let y = image.y + image.dy;
 
@@ -101,6 +120,8 @@
 
                 img.style.left = `${image.x}px`;
                 img.style.top = `${image.y}px`;
+                label.style.left = `${image.x + img.clientWidth / 2}px`;
+                label.style.top = `${image.y + img.clientHeight / 2}px`;
             });
 
             requestAnimationFrame(moveImages);
