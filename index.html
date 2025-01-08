@@ -34,7 +34,7 @@
             height: auto;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            animation: randomize 10s infinite;
+            animation: bounce 5s infinite alternate;
         }
         .video-container {
             text-align: center;
@@ -49,22 +49,43 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        @keyframes randomize {
+        @keyframes bounce {
             0% {
-                transform: translate(calc(50vw - 75px), calc(50vh - 75px));
+                top: 0;
+                left: 0;
             }
             25% {
-                transform: translate(10vw, 10vh);
+                top: 0;
+                left: calc(100% - 150px);
             }
             50% {
-                transform: translate(80vw, 30vh);
+                top: calc(100% - 150px);
+                left: calc(100% - 150px);
             }
             75% {
-                transform: translate(20vw, 70vh);
+                top: calc(100% - 150px);
+                left: 0;
             }
             100% {
-                transform: translate(calc(50vw - 75px), calc(50vh - 75px));
+                top: 0;
+                left: 0;
             }
+        }
+
+        .gallery img:nth-child(1) {
+            animation-delay: 0s;
+        }
+        .gallery img:nth-child(2) {
+            animation-delay: 1s;
+        }
+        .gallery img:nth-child(3) {
+            animation-delay: 2s;
+        }
+        .gallery img:nth-child(4) {
+            animation-delay: 3s;
+        }
+        .gallery img:nth-child(5) {
+            animation-delay: 4s;
         }
     </style>
 </head>
@@ -73,11 +94,11 @@
         <h1>Image Gallery</h1>
         <div class="gallery">
             <!-- Images added -->
-            <img src="photo_2024-11-12_16-12-29.jpg" alt="Image 1" style="top: 10%; left: 10%;">
-            <img src="photo_2025-01-08_23-39-35.jpg" alt="Image 2" style="top: 20%; left: 50%;">
-            <img src="photo_2025-01-08_23-39-48.jpg" alt="Image 3" style="top: 40%; left: 30%;">
-            <img src="photo_2025-01-08_23-40-21.jpg" alt="Image 4" style="top: 60%; left: 70%;">
-            <img src="photo_2025-01-08_23-40-26.jpg" alt="Image 5" style="top: 80%; left: 20%;">
+            <img src="photo_2024-11-12_16-12-29.jpg" alt="Image 1">
+            <img src="photo_2025-01-08_23-39-35.jpg" alt="Image 2">
+            <img src="photo_2025-01-08_23-39-48.jpg" alt="Image 3">
+            <img src="photo_2025-01-08_23-40-21.jpg" alt="Image 4">
+            <img src="photo_2025-01-08_23-40-26.jpg" alt="Image 5">
         </div>
         <div class="video-container">
             <video controls>
