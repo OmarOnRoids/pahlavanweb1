@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional Image Gallery</title>
+    <title>Cool</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -27,28 +27,12 @@
             position: relative;
             background-color: white;
         }
-        .container {
-            width: 100%;
-            height: 100%;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .gallery {
-            position: relative;
-            width: 100%;
-            height: 60%;
-        }
         .gallery img {
             position: absolute;
-            width: calc(25vw * 2.5);
-            height: auto;
+            width: calc(1920px / 30);
+            height: calc(1080px / 30);
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            animation: bounce 5s infinite alternate;
         }
         .video-container {
             text-align: center;
@@ -62,94 +46,82 @@
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-
-        @keyframes bounce {
-            0% {
-                top: 0;
-                left: 0;
-            }
-            25% {
-                top: 0;
-                left: calc(100% - calc(25vw * 2.5));
-            }
-            50% {
-                top: calc(100% - calc(25vw * 2.5));
-                left: calc(100% - calc(25vw * 2.5));
-            }
-            75% {
-                top: calc(100% - calc(25vw * 2.5));
-                left: 0;
-            }
-            100% {
-                top: 0;
-                left: 0;
-            }
-        }
-
-        .gallery img:nth-child(1) {
-            animation-delay: 0s;
-        }
-        .gallery img:nth-child(2) {
-            animation-delay: 1s;
-        }
-        .gallery img:nth-child(3) {
-            animation-delay: 2s;
-        }
-        .gallery img:nth-child(4) {
-            animation-delay: 3s;
-        }
-        .gallery img:nth-child(5) {
-            animation-delay: 4s;
-        }
-
-        @media (max-width: 768px) {
-            .gallery img {
-                width: calc(15vw * 2.5);
-            }
-            @keyframes bounce {
-                0% {
-                    top: 0;
-                    left: 0;
-                }
-                25% {
-                    top: 0;
-                    left: calc(100% - calc(15vw * 2.5));
-                }
-                50% {
-                    top: calc(100% - calc(15vw * 2.5));
-                    left: calc(100% - calc(15vw * 2.5));
-                }
-                75% {
-                    top: calc(100% - calc(15vw * 2.5));
-                    left: 0;
-                }
-                100% {
-                    top: 0;
-                    left: 0;
-                }
-            }
-        }
     </style>
 </head>
 <body>
     <div class="frame">
-        <div class="container">
-            <h1>Image Gallery</h1>
-            <div class="gallery">
-                <!-- Images added -->
-                <img src="photo_2024-11-12_16-12-29.jpg" alt="Image 1">
-                <img src="photo_2025-01-08_23-39-35.jpg" alt="Image 2">
-                <img src="photo_2025-01-08_23-39-48.jpg" alt="Image 3">
-                <img src="photo_2025-01-08_23-40-21.jpg" alt="Image 4">
-                <img src="photo_2025-01-08_23-40-26.jpg" alt="Image 5">
-            </div>
-            <div class="video-container">
-                <video controls>
-                    <source src="محمد السليم سيارتي جيب.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-            </div>
+        <div class="gallery">
+            <img src="photo_2024-11-12_16-12-29.jpg" alt="Image 1">
+            <img src="photo_2025-01-08_23-39-35.jpg" alt="Image 2">
+            <img src="photo_2025-01-08_23-39-48.jpg" alt="Image 3">
+            <img src="photo_2025-01-08_23-40-21.jpg" alt="Image 4">
+            <img src="photo_2025-01-08_23-40-26.jpg" alt="Image 5">
+        </div>
+        <div class="video-container">
+            <video controls>
+                <source src="محمد السليم سيارتي جيب.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
         </div>
     </div>
+    <script>
+        const frame = document.querySelector('.frame');
+        const images = document.querySelectorAll('.gallery img');
+
+        const imageData = Array.from(images).map(img => {
+            const rect = frame.getBoundingClientRect();
+            const size = rect.width / 30;
+            img.style.width = `${size}px`;
+            img.style.height = `${size}px`;
+            return {
+                element: img,
+                x: Math.random() * (rect.width - size),
+                y: Math.random() * (rect.height - size),
+                dx: (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 2 + 1),
+                dy: (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 2 + 1),
+                size: size
+            };
+        });
+
+        function moveImages() {
+            const rect = frame.getBoundingClientRect();
+
+            imageData.forEach(data => {
+                data.x += data.dx;
+                data.y += data.dy;
+
+                // Check for wall collisions
+                if (data.x <= 0 || data.x + data.size >= rect.width) {
+                    data.dx *= -1;
+                }
+                if (data.y <= 0 || data.y + data.size >= rect.height) {
+                    data.dy *= -1;
+                }
+
+                // Check for collisions with other images
+                imageData.forEach(other => {
+                    if (data === other) return;
+                    if (
+                        data.x < other.x + other.size &&
+                        data.x + data.size > other.x &&
+                        data.y < other.y + other.size &&
+                        data.y + data.size > other.y
+                    ) {
+                        data.dx *= -1;
+                        data.dy *= -1;
+                        other.dx *= -1;
+                        other.dy *= -1;
+                    }
+                });
+
+                // Update position
+                data.element.style.transform = `translate(${data.x}px, ${data.y}px)`;
+            });
+
+            requestAnimationFrame(moveImages);
+        }
+
+        moveImages();
+    </script>
 </body>
 </html>
