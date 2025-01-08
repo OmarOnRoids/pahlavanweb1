@@ -13,11 +13,25 @@
             color: #333;
             position: relative;
             overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .frame {
+            width: 1920px;
+            height: 1080px;
+            border: 5px solid #333;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            position: relative;
+            background-color: white;
         }
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
+            width: 100%;
+            height: 100%;
             padding: 20px;
+            box-sizing: border-box;
         }
         h1 {
             text-align: center;
@@ -26,7 +40,7 @@
         .gallery {
             position: relative;
             width: 100%;
-            height: 60vh;
+            height: 60%;
         }
         .gallery img {
             position: absolute;
@@ -56,14 +70,14 @@
             }
             25% {
                 top: 0;
-                left: calc(100vw - calc(25vw * 2.5));
+                left: calc(100% - calc(25vw * 2.5));
             }
             50% {
-                top: calc(100vh - calc(25vw * 2.5));
-                left: calc(100vw - calc(25vw * 2.5));
+                top: calc(100% - calc(25vw * 2.5));
+                left: calc(100% - calc(25vw * 2.5));
             }
             75% {
-                top: calc(100vh - calc(25vw * 2.5));
+                top: calc(100% - calc(25vw * 2.5));
                 left: 0;
             }
             100% {
@@ -99,14 +113,14 @@
                 }
                 25% {
                     top: 0;
-                    left: calc(100vw - calc(15vw * 2.5));
+                    left: calc(100% - calc(15vw * 2.5));
                 }
                 50% {
-                    top: calc(100vh - calc(15vw * 2.5));
-                    left: calc(100vw - calc(15vw * 2.5));
+                    top: calc(100% - calc(15vw * 2.5));
+                    left: calc(100% - calc(15vw * 2.5));
                 }
                 75% {
-                    top: calc(100vh - calc(15vw * 2.5));
+                    top: calc(100% - calc(15vw * 2.5));
                     left: 0;
                 }
                 100% {
@@ -118,21 +132,23 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Image Gallery</h1>
-        <div class="gallery">
-            <!-- Images added -->
-            <img src="photo_2024-11-12_16-12-29.jpg" alt="Image 1">
-            <img src="photo_2025-01-08_23-39-35.jpg" alt="Image 2">
-            <img src="photo_2025-01-08_23-39-48.jpg" alt="Image 3">
-            <img src="photo_2025-01-08_23-40-21.jpg" alt="Image 4">
-            <img src="photo_2025-01-08_23-40-26.jpg" alt="Image 5">
-        </div>
-        <div class="video-container">
-            <video controls>
-                <source src="محمد السليم سيارتي جيب.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
+    <div class="frame">
+        <div class="container">
+            <h1>Image Gallery</h1>
+            <div class="gallery">
+                <!-- Images added -->
+                <img src="photo_2024-11-12_16-12-29.jpg" alt="Image 1">
+                <img src="photo_2025-01-08_23-39-35.jpg" alt="Image 2">
+                <img src="photo_2025-01-08_23-39-48.jpg" alt="Image 3">
+                <img src="photo_2025-01-08_23-40-21.jpg" alt="Image 4">
+                <img src="photo_2025-01-08_23-40-26.jpg" alt="Image 5">
+            </div>
+            <div class="video-container">
+                <video controls>
+                    <source src="محمد السليم سيارتي جيب.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
         </div>
     </div>
 </body>
