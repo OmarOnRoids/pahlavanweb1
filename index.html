@@ -30,7 +30,7 @@
         }
         .gallery img {
             position: absolute;
-            width: 10vw;
+            width: calc(25vw * 2.5);
             height: auto;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -56,14 +56,14 @@
             }
             25% {
                 top: 0;
-                left: calc(100vw - 10vw);
+                left: calc(100vw - calc(25vw * 2.5));
             }
             50% {
-                top: calc(100vh - 10vw);
-                left: calc(100vw - 10vw);
+                top: calc(100vh - calc(25vw * 2.5));
+                left: calc(100vw - calc(25vw * 2.5));
             }
             75% {
-                top: calc(100vh - 10vw);
+                top: calc(100vh - calc(25vw * 2.5));
                 left: 0;
             }
             100% {
@@ -90,7 +90,7 @@
 
         @media (max-width: 768px) {
             .gallery img {
-                width: 15vw;
+                width: calc(15vw * 2.5);
             }
             @keyframes bounce {
                 0% {
@@ -99,14 +99,14 @@
                 }
                 25% {
                     top: 0;
-                    left: calc(100vw - 15vw);
+                    left: calc(100vw - calc(15vw * 2.5));
                 }
                 50% {
-                    top: calc(100vh - 15vw);
-                    left: calc(100vw - 15vw);
+                    top: calc(100vh - calc(15vw * 2.5));
+                    left: calc(100vw - calc(15vw * 2.5));
                 }
                 75% {
-                    top: calc(100vh - 15vw);
+                    top: calc(100vh - calc(15vw * 2.5));
                     left: 0;
                 }
                 100% {
