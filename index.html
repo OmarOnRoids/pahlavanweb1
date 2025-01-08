@@ -103,6 +103,12 @@
         }
 
         function moveImages() {
+            images.sort((a, b) => {
+                const zIndexA = parseInt(a.img.style.zIndex) || 0;
+                const zIndexB = parseInt(b.img.style.zIndex) || 0;
+                return zIndexB - zIndexA;
+            });
+
             images.forEach(image => {
                 const { img, label } = image;
                 let x = image.x + image.dx;
