@@ -31,7 +31,7 @@
             position: absolute;
             width: 240px;
             height: 135px;
-            border-radius: 1px;
+            border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .video-container {
@@ -73,8 +73,8 @@
 
         const imageData = Array.from(images).map(img => {
             const rect = frame.getBoundingClientRect();
-            const width = 300;
-            const height = 300;
+            const width = 960;
+            const height = 540;
             return {
                 element: img,
                 x: Math.random() * (rect.width - width),
