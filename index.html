@@ -32,6 +32,7 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
+            z-index: 10; /* Ensure the rectangle and video are above the images */
         }
 
         #video {
@@ -45,6 +46,7 @@
             width: 15vw;
             height: auto;
             object-fit: cover;
+            z-index: 5; /* Ensure images are below the video */
         }
     </style>
 </head>
