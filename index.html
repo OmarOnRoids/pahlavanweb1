@@ -21,6 +21,7 @@
             width: 100%;
             height: 100%;
             border: 10px solid black;
+            overflow: hidden;
         }
 
         .image {
@@ -54,6 +55,11 @@
             do {
                 top = Math.random() * 85;
                 left = Math.random() * 85;
+
+                // Ensure elements stay within the container
+                if (top + 15 > 100) top = 85;
+                if (left + 15 > 100) left = 85;
+
                 overlap = occupiedAreas.some(area => {
                     return (
                         top < area.bottom &&
