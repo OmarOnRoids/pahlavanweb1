@@ -49,7 +49,7 @@
         }
 
         .umar {
-            z-index: 1000; /* Highest priority */
+            z-index: 1000; /* Always on top */
         }
 
         .banana {
@@ -63,28 +63,29 @@
     <script>
         const container = document.getElementById('container');
         const imageFiles = [
-            { src: 'photo_2024-11-12_16-12-29.jpg', size: 'half-size', name: 'Umar', class: 'umar' },
-            { src: 'photo_2025-01-08_23-39-35.jpg', size: 'half-size', name: 'Body' },
-            { src: 'photo_2025-01-08_23-39-48.jpg', size: 'default-size', name: 'Banana', class: 'banana' },
-            { src: 'photo_2025-01-08_23-40-21.jpg', size: 'default-size', name: 'Image 4' },
-            { src: 'photo_2025-01-08_23-40-26.jpg', size: 'default-size', name: 'Image 5' }
+            { src: 'photo_2024-11-12_16-12-29.jpg', size: 'half-size', name: 'Umar', class: 'umar', zIndex: 1000 },
+            { src: 'photo_2025-01-08_23-39-35.jpg', size: 'half-size', name: 'Body', zIndex: 1 },
+            { src: 'photo_2025-01-08_23-39-48.jpg', size: 'default-size', name: 'Banana', class: 'banana', zIndex: 999 },
+            { src: 'photo_2025-01-08_23-40-21.jpg', size: 'default-size', name: 'Image 4', zIndex: 1 },
+            { src: 'photo_2025-01-08_23-40-26.jpg', size: 'default-size', name: 'Image 5', zIndex: 1 }
         ];
 
         const images = [];
 
         function randomPosition() {
             return {
-                x: Math.random() * (container.clientWidth - container.clientWidth * 0.3), // Adjusted for max size
+                x: Math.random() * (container.clientWidth - container.clientWidth * 0.3),
                 y: Math.random() * (container.clientHeight - container.clientHeight * 0.3),
-                dx: (Math.random() > 0.5 ? 1 : -1) * 2, // Speed multiplier
+                dx: (Math.random() > 0.5 ? 1 : -1) * 2,
                 dy: (Math.random() > 0.5 ? 1 : -1) * 2
             };
         }
 
-        function createImageElement({ src, size, name, class: additionalClass = '' }) {
+        function createImageElement({ src, size, name, class: additionalClass = '', zIndex = 1 }) {
             const img = document.createElement('img');
             img.src = src;
             img.classList.add('image', size, additionalClass);
+            img.style.zIndex = zIndex;
 
             const position = randomPosition();
             img.style.left = `${position.x}px`;
@@ -103,12 +104,6 @@
         }
 
         function moveImages() {
-            images.sort((a, b) => {
-                const zIndexA = parseInt(a.img.style.zIndex) || 0;
-                const zIndexB = parseInt(b.img.style.zIndex) || 0;
-                return zIndexB - zIndexA;
-            });
-
             images.forEach(image => {
                 const { img, label } = image;
                 let x = image.x + image.dx;
