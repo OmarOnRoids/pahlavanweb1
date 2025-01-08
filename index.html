@@ -38,16 +38,6 @@
             width: 15vw;
         }
 
-        .label {
-            position: absolute;
-            background: rgba(0, 0, 0, 0.5);
-            color: white;
-            font-size: 1vw;
-            padding: 2px 5px;
-            border-radius: 3px;
-            transform: translate(-50%, -50%);
-        }
-
         .umar {
             z-index: 1000; /* Always on top */
         }
@@ -63,11 +53,11 @@
     <script>
         const container = document.getElementById('container');
         const imageFiles = [
-            { src: 'photo_2024-11-12_16-12-29.jpg', size: 'half-size', name: 'Umar', class: 'umar', zIndex: 1000 },
-            { src: 'photo_2025-01-08_23-39-35.jpg', size: 'half-size', name: 'Body', zIndex: 1 },
-            { src: 'photo_2025-01-08_23-39-48.jpg', size: 'default-size', name: 'Banana', class: 'banana', zIndex: 999 },
-            { src: 'photo_2025-01-08_23-40-21.jpg', size: 'default-size', name: 'Image 4', zIndex: 1 },
-            { src: 'photo_2025-01-08_23-40-26.jpg', size: 'default-size', name: 'Image 5', zIndex: 1 }
+            { src: 'photo_2024-11-12_16-12-29.jpg', size: 'half-size', class: 'umar', zIndex: 1000 },
+            { src: 'photo_2025-01-08_23-39-35.jpg', size: 'half-size', zIndex: 1 },
+            { src: 'photo_2025-01-08_23-39-48.jpg', size: 'default-size', class: 'banana', zIndex: 999 },
+            { src: 'photo_2025-01-08_23-40-21.jpg', size: 'default-size', zIndex: 1 },
+            { src: 'photo_2025-01-08_23-40-26.jpg', size: 'default-size', zIndex: 1 }
         ];
 
         const images = [];
@@ -81,7 +71,7 @@
             };
         }
 
-        function createImageElement({ src, size, name, class: additionalClass = '', zIndex = 1 }) {
+        function createImageElement({ src, size, class: additionalClass = '', zIndex = 1 }) {
             const img = document.createElement('img');
             img.src = src;
             img.classList.add('image', size, additionalClass);
@@ -91,21 +81,13 @@
             img.style.left = `${position.x}px`;
             img.style.top = `${position.y}px`;
 
-            const label = document.createElement('div');
-            label.classList.add('label');
-            label.innerText = name;
-            label.style.left = `${position.x + img.clientWidth / 2}px`;
-            label.style.top = `${position.y + img.clientHeight / 2}px`;
-
             container.appendChild(img);
-            container.appendChild(label);
-
-            images.push({ img, label, ...position });
+            images.push({ img, ...position });
         }
 
         function moveImages() {
             images.forEach(image => {
-                const { img, label } = image;
+                const { img } = image;
                 let x = image.x + image.dx;
                 let y = image.y + image.dy;
 
@@ -124,8 +106,6 @@
 
                 img.style.left = `${image.x}px`;
                 img.style.top = `${image.y}px`;
-                label.style.left = `${image.x + img.clientWidth / 2}px`;
-                label.style.top = `${image.y + img.clientHeight / 2}px`;
             });
 
             requestAnimationFrame(moveImages);
