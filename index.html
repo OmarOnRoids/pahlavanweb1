@@ -29,8 +29,8 @@
         }
         .gallery img {
             position: absolute;
-            width: 240px;
-            height: 135px;
+            width: 960px;
+            height: 540px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
@@ -43,9 +43,10 @@
             z-index: 10;
         }
         video {
-            width: 640px;
-            height: 360px;
+            width: 213px;
+            height: 213px;
             border-radius: 8px;
+            object-fit: cover;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
     </style>
@@ -72,14 +73,14 @@
 
         const imageData = Array.from(images).map(img => {
             const rect = frame.getBoundingClientRect();
-            const width = 240;
-            const height = 135;
+            const width = 960;
+            const height = 540;
             return {
                 element: img,
                 x: Math.random() * (rect.width - width),
                 y: Math.random() * (rect.height - height),
-                dx: (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 2 + 1),
-                dy: (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 2 + 1),
+                dx: (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 0.7 + 0.3),
+                dy: (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 0.7 + 0.3),
                 width: width,
                 height: height
             };
